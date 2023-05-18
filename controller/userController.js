@@ -40,7 +40,8 @@ exports.signup = async (req, res) => {
     const profile = req.files.profile;
     const path = profile.tempFilePath;
 
-    const { u_name, u_email, u_password, u_contact } = req.body;
+    const { u_name, u_email, u_password, u_contact, tiffin_type, tiffin_count } = req.body;
+    const mess_id = req.mess._id.toString();
     const user = await userModel.findOne({ u_email });
 
     if (user) {
@@ -61,10 +62,13 @@ exports.signup = async (req, res) => {
 
       const data = await userModel.create({
         u_name: u_name,
+        mess_id: mess_id,
         u_email: u_email,
         u_password: u_password,
         u_image: url,
         u_contact: u_contact,
+        tiffin_type: tiffin_type,
+        tiffin_count: tiffin_count
       });
 
       if (data) {
@@ -85,11 +89,29 @@ exports.signup = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await userModel.find();
+    const mess_id = req.mess._id.toString();
+    const users = await userModel.find({mess_id});
     if (users) {
       return res.status(200).json({ status: true, data: users });
     } else {
       return res.status(400).json({ status: false, data: null });
+    }
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({ message: "Some error occured" });
+  }
+};
+
+exports.getUserByEmail = async (req, res) => {
+  try {
+    const email = req.params.email;
+    const mess_id = req.mess._id.toString();
+    const result = await userModel.findOne({ u_email: email, mess_id: mess_id });
+
+    if (result) {
+      return res.status(200).json({ success: true, data: result });
+    } else {
+      return res.status(200).json({ success: false, data: null });
     }
   } catch (e) {
     console.log(e.message);
