@@ -10,6 +10,10 @@ const bill = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "messModel",
     },
+    u_email: {
+      type: String,
+      default: "",
+    },
     tiffins: {
       type: String,
       default: "0",
@@ -27,7 +31,7 @@ const bill = mongoose.Schema(
     }
   },
   {
-    timestamp: true,
+    timestamps: true,
   }
 );
 

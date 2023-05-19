@@ -7,7 +7,8 @@ const userRoutes = require("./routes/userRoutes");
 const messRoutes = require("./routes/messRoutes");
 
 app.use(express.json());
-app.use(cors({credentials: true, origin: ["http://localhost:3000", "http://localhost:3001", "https://devsinfo.vercel.app"]}));
+// app.use(cors({credentials: true, origin: ["http://localhost:3000", "http://localhost:3001", "https://devsinfo.vercel.app"]}));
+app.use(cors());
 
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", messRoutes);

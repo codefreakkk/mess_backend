@@ -22,6 +22,10 @@ const mess = mongoose.Schema(
       type: String,
       default: "",
     },
+    meal: {
+      type: String, 
+      default: "",
+    }
   },
   {
     timestamps: true,
